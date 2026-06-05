@@ -55,10 +55,3 @@ Navigate into the directory:
    cd marramohamed
 Open index.html in your preferred browser, or use a tool like VS Code Live Server for hot-reloading.
 
-## 📬 Let's Talk Data
-Ready to build robust pipelines or modernize your data ecosystem?
-
-Email: Send a direct inquiry via Gmail " (https://mail.google.com/mail/?view=cm&fs=1&to=marramohamed7@gmail.com&su=Job Inquiry - Data Analytics" target="_blank" class="footer-link) "
-
-
-LinkedIn: Connect with me"(https://www.linkedin.com/in/marra-mohamed/)" 
