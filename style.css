@@ -1,0 +1,1010 @@
+/* --- Global Variables & Theme Mechanics --- */
+
+:root {
+    /* Base Colors - Default Dark Theme */
+    --bg-color: #050505;
+    --text-color: #F4F4F4;
+    --border-color: rgba(244, 244, 244, 0.15);
+    
+    /* Typography */
+    --font-primary: 'Inter', sans-serif;
+    --font-italic: 'Playfair Display', serif;
+    --font-mono: monospace;
+    
+    /* Grid System */
+    --grid-gap: 0px; /* Brutalist grid relies on borders, not gaps */
+    --border-thickness: 0.5px;
+}
+
+/* Theme Inversion Class */
+.theme-light {
+    --bg-color: #F4F4F4;
+    --text-color: #050505;
+    --border-color: rgba(5, 5, 5, 0.15);
+}
+
+/* --- Reset & Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.8s ease, color 0.8s ease;
+    overflow-x: hidden;
+}
+
+/* Canvas Background */
+#pixel-engine {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- Global Navigation --- */
+.global-nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    border-bottom: var(--border-thickness) solid var(--border-color);
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    padding: 1.5rem 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.nav-brand {
+    grid-column: 1 / 4;
+}
+
+.nav-links {
+    grid-column: 4 / 10;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-status {
+    grid-column: 10 / 13;
+    text-align: right;
+}
+
+/* Placeholder for layout testing */
+.placeholder-height {
+    height: 100vh;
+    border-bottom: var(--border-thickness) solid var(--border-color);
+}
+/* --- Hero Section & Typography --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    border-bottom: var(--border-thickness) solid var(--border-color);
+    overflow: hidden;
+}
+
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    width: 100%;
+    padding: 0 2rem;
+    z-index: 2; /* Ensures text stays above the 3D render */
+    pointer-events: none; /* Allows mouse interactions to pass through to the 3D canvas */
+}
+
+.hero-title {
+    grid-column: 1 / 12;
+    font-size: clamp(3rem, 7vw, 9rem);
+    line-height: 0.85;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--text-color);
+    margin-top: 10vh;
+}
+
+.hero-title em {
+    font-family: var(--font-italic);
+    font-weight: 600;
+    font-style: italic;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    color: var(--text-color);
+}
+/* --- Technical Pillars (Staggered Grid) --- */
+.technical-pillars {
+    padding: 15vh 2rem 20vh 2rem;
+    border-bottom: var(--border-thickness) solid var(--border-color);
+    position: relative;
+    z-index: 10;
+}
+
+.pillars-header {
+    margin-bottom: 8vh;
+    grid-column: 1 / 13;
+}
+
+.pillars-header h2 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.pillar-card {
+    border: var(--border-thickness) solid var(--border-color);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 450px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    cursor: crosshair; /* Adds an analytical feel to the interaction */
+}
+
+/* The Staggering Mechanic */
+.staggered-2 {
+    margin-top: 5rem;
+}
+
+.staggered-3 {
+    margin-top: 10rem;
+}
+
+.pillar-number {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 3rem;
+    opacity: 0.5;
+}
+
+.pillar-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.pillar-desc {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin-bottom: auto; /* Pushes the engine reveal to the bottom */
+}
+
+.pillar-engine-reveal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.pillar-engine-reveal span {
+    opacity: 0.5;
+    margin-right: 0.5rem;
+}
+
+/* Hover Interaction: Invert to Black & Reveal Stack */
+.pillar-card:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-color: var(--text-color);
+}
+
+.pillar-card:hover .pillar-engine-reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* --- Featured Case Studies --- */
+.case-studies {
+    position: relative;
+    z-index: 10;
+}
+
+.section-header {
+    padding: 2rem;
+}
+
+.section-header h2 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.border-bottom {
+    border-bottom: var(--border-thickness) solid var(--border-color);
+}
+
+.case-row {
+    display: grid;
+    grid-template-columns: 5fr 7fr; /* Left side (text) is slightly narrower than right (visual) */
+    min-height: 80vh;
+}
+
+.case-content {
+    padding: 4rem 2rem;
+    border-right: var(--border-thickness) solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.case-title {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.case-desc {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    opacity: 0.8;
+    margin-bottom: 4rem;
+    max-width: 90%;
+}
+
+.case-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: auto;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+}
+
+.metric-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.case-visual {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(128, 128, 128, 0.05); /* Very subtle off-color for the image area */
+    overflow: hidden;
+}
+
+/* Placeholder for where your high-fidelity diagrams will go */
+.diagram-placeholder {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--border-color);
+    letter-spacing: 0.1em;
+    transform: rotate(-90deg); /* Adds a technical, blueprint feel to the placeholder */
+}
+/* --- The Comprehensive Code Archive --- */
+.code-archive {
+    position: relative;
+    z-index: 10;
+    padding-bottom: 15vh;
+}
+
+.archive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.archive-header h2 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.archive-filters {
+    display: flex;
+    gap: 2rem;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-color);
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+    text-transform: uppercase;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    opacity: 1;
+}
+
+/* Table Layout */
+.archive-row {
+    display: grid;
+    grid-template-columns: 1fr 5fr 3fr 2fr;
+    padding: 2rem;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.table-head {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+
+.archive-item {
+    cursor: pointer;
+}
+
+.col-year {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.col-project {
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.col-stack {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.source-link {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-color);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    display: inline-block;
+}
+
+/* Hover Mechanics */
+.archive-item:hover {
+    background-color: rgba(128, 128, 128, 0.05);
+}
+
+.archive-item:hover .col-project {
+    transform: translateX(15px); /* X-axis shift */
+}
+
+.archive-item:hover .source-link {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Utility class for JS filtering */
+.hidden {
+    display: none !important;
+}
+/* --- The Anchor Footer --- */
+.site-footer {
+    position: relative;
+    z-index: 10;
+    /* Forcing the Dark Theme for the Footer */
+    background-color: #050505; 
+    color: #F4F4F4;
+    border-top: var(--border-thickness) solid rgba(244, 244, 244, 0.15);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    min-height: 70vh;
+}
+
+.footer-cta {
+    padding: 4rem 2rem;
+    border-right: var(--border-thickness) solid rgba(244, 244, 244, 0.15);
+    display: flex;
+    align-items: center;
+}
+
+.footer-cta h2 {
+    font-size: clamp(3.5rem, 7vw, 9rem);
+    line-height: 0.85;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+}
+
+.footer-cta em {
+    font-family: var(--font-italic);
+    font-weight: 600;
+    font-style: italic;
+    text-transform: lowercase;
+}
+
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.contact-list li {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 3rem;
+    border-bottom: var(--border-thickness) solid rgba(244, 244, 244, 0.15);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+}
+
+.contact-list li:not(.status-indicator):hover {
+    padding-left: 4.5rem;
+    background-color: rgba(244, 244, 244, 0.03);
+}
+
+.contact-list a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.status-indicator span {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+}
+
+.footer-legal {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    opacity: 0.5;
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 1024px) {
+    .case-row, .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    .footer-cta {
+        border-right: none;
+        border-bottom: var(--border-thickness) solid rgba(244, 244, 244, 0.15);
+        padding: 6rem 2rem;
+    }
+}
+
+
+/* --- Global Navigation Updates --- */
+.nav-item {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.nav-item:hover {
+    opacity: 0.5;
+}
+
+/* --- About & CV Section --- */
+.about-section {
+    position: relative;
+    z-index: 10;
+    border-bottom: var(--border-thickness) solid var(--border-color);
+    background-color: var(--bg-color); /* Matches the dark theme of the hero before inverting */
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    min-height: 60vh;
+}
+
+.about-visual {
+    border-right: var(--border-thickness) solid var(--border-color);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0a0a0a;
+}
+
+.profile-photo {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    /* This forces the image into the brutalist monochrome theme */
+    filter: grayscale(100%) contrast(120%) brightness(0.9);
+    transition: filter 0.5s ease;
+}
+
+.profile-photo:hover {
+    filter: grayscale(0%) contrast(100%) brightness(1); /* Optional: reveals color on hover */
+}
+
+.about-content {
+    padding: 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about-content h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    margin-bottom: 2rem;
+    letter-spacing: -0.03em;
+}
+
+.about-content p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 80%;
+    margin-bottom: 2rem;
+}
+
+.about-stack {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-bottom: 4rem;
+    text-transform: uppercase;
+}
+
+/* Brutalist Download Button */
+.btn-download {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 1.5rem 3rem;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-download:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-visual {
+        border-right: none;
+        border-bottom: var(--border-thickness) solid var(--border-color);
+    }
+}
+/* --- إعدادات حاوية الصورة --- */
+.case-visual {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(128, 128, 128, 0.05); /* لون الخلفية الافتراضي (داكن) */
+    overflow: hidden;
+    /* إضافة انتقال سلس لتغيير لون الخلفية */
+    transition: background-color 0.4s ease; 
+    cursor: crosshair;
+}
+
+/* --- إعدادات الـ SVG --- */
+.showcase-img {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: contain;
+    /* عكس الألوان (Invert) لتصبح الخطوط السوداء بيضاء وتظهر على الخلفية الداكنة */
+    filter: invert(1) grayscale(100%) contrast(120%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+/* --- التأثير الديناميكي عند تمرير الماوس (Hover) --- */
+.case-visual:hover {
+    /* تحويل خلفية الصندوق بالكامل إلى الأبيض الساطع */
+    background-color: #F4F4F4; 
+}
+
+.case-visual:hover .showcase-img {
+    /* إلغاء الانعكاس لتعود الخطوط سوداء وتتكبر الصورة قليلاً للتركيز */
+    filter: invert(0) grayscale(100%) contrast(100%);
+    transform: scale(1.03);
+}
+/* --- Hover Image Reveal (Tooltip) --- */
+#hover-image-reveal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px; 
+    height: 220px; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none; /* 🚀 مهم جداً: يمنع الصورة من حجب النقرات عن الروابط تحتها */
+    z-index: 1000; /* لضمان ظهور الصورة فوق كل شيء في الموقع */
+    opacity: 0;
+    transform: scale(0.8); /* تبدأ بحجم أصغر قليلاً لتأثير الدخول */
+    border: 2px solid var(--text-color); /* إطار حاد يتناسب مع الـ Brutalist */
+    
+    /* ظل قوي وناعم لكي تطفو الصورة الملونة بفخامة */
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.9); 
+    
+    /* حركة سلسة للظهور والتكبير */
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none; /* يتم إخفاؤها افتراضياً (لأن الموبايل لا يمتلك ماوس) */
+}
+
+/* تفعيل التأثير فقط على شاشات الكمبيوتر واللابتوب */
+@media (min-width: 1025px) {
+    #hover-image-reveal {
+        display: block;
+    }
+}
+
+/* الكلاس الذي يقوم الجافاسكريبت بإضافته لإظهار الصورة */
+#hover-image-reveal.visible {
+    opacity: 1;
+    transform: scale(1); /* تعود لحجمها الطبيعي */
+}
+
+
+.profile-img {
+    filter: grayscale(100%) contrast(110%);
+    transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.profile-img:hover {
+    filter: grayscale(0%) contrast(100%);
+    transform: scale(5.02);
+}
+
+
+
+
+
+
+.about-visual{
+    position:relative;
+}
+
+.identity-block {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    backdrop-filter: blur(6px);
+}
+
+.identity-block2 {
+    position: absolute;
+    top: 510px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    backdrop-filter: blur(6px);
+}
+
+#scramble-name{
+    font-family: var(--font-mono);
+    font-size: 4rem;   /* 👈 خليها كبيرة */
+    letter-spacing: 0.35em;
+    font-weight: 700;
+    color: var(--text-color);
+    opacity: 0.85;
+    text-transform: uppercase;
+}
+#scramble-name2{
+    font-family: var(--font-mono);
+    font-size: 4rem;   /* 👈 خليها كبيرة */
+    letter-spacing: 0.35em;
+    font-weight: 700;
+    color: var(--text-color);
+    opacity: 0.85;
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+/* --- Tech Stack Infinite Marquee --- */
+
+/* الشريط بالكامل أصبح أنحف وأكثر أناقة */
+.tech-stack-section {
+    background-color: #050505; 
+    padding: 0.8rem 0; /* 🚀 تم تقليل المساحة العلوية والسفلية (كانت 3rem) */
+    overflow: hidden; 
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    /* إضافة تدرج لوني خفيف على الأطراف لتبدو الشعارات وكأنها تخرج من الظلام وتختفي فيه */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    /* حركة خطية بطيئة لا تتوقف أبداً (30 ثانية للدورة) */
+    animation: scrollMarquee 35s linear infinite;
+}
+
+/* 🚀 ميزة إضافية: إيقاف الحركة عند التمرير ليتمكن المستخدم من رؤية الشعار */
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+/* 1. إعدادات الصندوق الخارجي (الحجم والمسافات فقط) */
+.tech-logo {
+    width: clamp(25px, 3.5vw, 40px);
+    margin: 0 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 2. 🚀 تطبيق السحر على الصورة (الشعار) مباشرة لتصبح بيضاء */
+.tech-logo img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* إجبار الصورة على التحول للون الأبيض الشفاف */
+    filter: brightness(0) invert(1) opacity(0.4); 
+    transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 3. التأثير عند التمرير (Hover) */
+.tech-logo:hover img {
+    /* عودة الألوان الأصلية مع تكبير الشعار */
+    filter: brightness(1) invert(0) opacity(1);
+    transform: scale(1.4);
+}
+
+/* هندسة الحركة اللانهائية */
+@keyframes scrollMarquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* نزيح الشريط بنسبة 50% بالضبط (لأننا ضاعفنا الشعارات) ليحدث اللوب السري */
+        transform: translateX(-50%);
+    }
+}
+
+
+
+
+
+
+/* --- Metrics Section (Strictly Scoped) --- */
+.metrics-section {
+    background-color: #050505;
+    border-top: 1px solid var(--text-color);
+}
+
+.metrics-section .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 أعمدة في الشاشات الكبيرة */
+}
+
+/* 1. تصغير المساحة الداخلية للبطاقات */
+.metrics-section .metric-card {
+    padding: 2.5rem 1.5rem; /* 🚀 تم تصغيرها (كانت 4rem 2rem) لتصبح البطاقة أنحف */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* تأثير الانعكاس عند التمرير (Hover Invert) */
+.metrics-section .metric-card:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* الأرقام العملاقة محصورة فقط داخل هذا القسم */
+/* 2. تصغير الأرقام لتكون أنيقة وليست ضخمة جداً */
+.metrics-section .metric-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 4vw, 3.8rem); /* 🚀 تم تقليل الحد الأقصى من 5rem إلى 3.8rem */
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: baseline;
+}
+
+/* علامة الـ K+ */
+/* 3. تصغير علامة الـ K+ */
+.metrics-section .suffix {
+    font-size: clamp(1.5rem, 2vw, 2rem); /* 🚀 تم تصغيرها لتتناسب مع الرقم الجديد */
+    color: #999999;
+}
+
+.metrics-section .metric-card:hover .suffix {
+    color: var(--bg-color); 
+}
+
+/* النص أسفل الرقم */
+/* 4. تصغير النص أسفل الرقم ليحافظ على التناسق */
+.metrics-section .metric-label {
+    font-family: monospace;
+    font-size: 12px; /* 🚀 تم تصغيره من 14px إلى 12px ليعطي طابعاً هندسياً دقيقاً */
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* تجاوب الشاشات (Responsive) */
+@media (max-width: 1024px) {
+    .metrics-section .metrics-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    .metrics-section .metric-card:nth-child(2) {
+        border-right: none;
+    }
+    .metrics-section .metric-card:nth-child(1), 
+    .metrics-section .metric-card:nth-child(2) {
+        border-bottom: 1px solid var(--text-color);
+    }
+}
+
+@media (max-width: 600px) {
+    .metrics-section .metrics-grid {
+        grid-template-columns: 1fr; 
+    }
+    .metrics-section .metric-card {
+        border-right: none;
+        border-bottom: 1px solid var(--text-color);
+        padding: 3rem 1rem;
+    }
+    .metrics-section .metric-card:last-child {
+        border-bottom: none;
+    }
+}
+
+
+
+
+
+/* --- Certificates Marquee Section --- */
+.cert-marquee-section {
+    background-color: #050505; 
+    padding: 1rem 0; /* 🚀 تم تقليل المساحة بشكل كبير (كانت 2rem) */
+    overflow: hidden; 
+}
+
+/* الحركة المعاكسة */
+.cert-track {
+    display: flex;
+    width: max-content;
+    /* 🚀 السر هنا: reverse تجعله يتحرك يميناً، و 45s تجعله أبطأ وأكثر فخامة */
+    animation: scrollMarquee 45s linear infinite reverse;
+}
+
+.cert-track:hover {
+    animation-play-state: paused;
+}
+
+/* حجم شعارات الشهادات أعرض من أيقونات التقنية */
+.cert-logo {
+    width: clamp(50px, 8vw, 100px); /* 🚀 تصغير ملحوظ: الحد الأقصى أصبح 100 بيكسل (كان 140) */
+    height: 45px; /* 🚀 إجبار الحاوية على ارتفاع ثابت وأنيق */
+    margin: 0 3rem; /* تقليل المسافة بين الشعارات لتناسب الحجم الجديد */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cert-logo img {
+    width: 100%;
+    height: 100%;
+    max-height: 35px; /* 🚀 هذا السطر السحري يمنع Coursera و Microsoft من الانفجار */
+    object-fit: contain;
+    filter: brightness(0) invert(1) opacity(0.6); 
+    transition: filter 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-logo:hover img {
+    filter: brightness(1) invert(0) opacity(1);
+    transform: scale(1.15);
+}
+
+/* تصميم الشهادات المكتوبة كنص (Brutalist Text Logos) */
+.text-cert {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.3); /* يتطابق مع شفافية الصور */
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-logo:hover .text-cert {
+    color: #ffffff;
+    transform: scale(1.15);
+}
