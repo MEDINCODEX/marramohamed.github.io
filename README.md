@@ -2,7 +2,7 @@
 
 > A high-performance, brutalist web portfolio showcasing scalable data architecture, automated workflows, and strategic business intelligence.
 
-[![Live Demo](https://img.shields.io/badge/Live_Site-View_Portfolio-050505?style=for-the-badge&logo=github)](https://[username].github.io)
+[![Live Demo](https://img.shields.io/badge/Live_Site-View_Portfolio-050505?style=for-the-badge&logo=github)](https://medincodex.github.io/marramohamed/)
 [![Status](https://img.shields.io/badge/Status-Available_for_Relocation-success?style=for-the-badge)](#)
 
 ## 🏗️ The Architecture
@@ -59,6 +59,7 @@ Open index.html in your preferred browser, or use a tool like VS Code Live Serve
 📬 Let's Talk Data
 Ready to build robust pipelines or modernize your data ecosystem?
 
-Email: Send a direct inquiry via Gmail
+Email: Send a direct inquiry via Gmail " (https://mail.google.com/mail/?view=cm&fs=1&to=marramohamed7@gmail.com&su=Job Inquiry - Data Analytics" target="_blank" class="footer-link) "
 
-LinkedIn: Connect with me"# marramohamed.github.io" 
+
+LinkedIn: Connect with me"(https://www.linkedin.com/in/marra-mohamed/)" 
