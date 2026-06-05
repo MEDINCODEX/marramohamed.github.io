@@ -51,8 +51,8 @@ Because this architecture is fully static and relies on native browser capabilit
    git clone [(https://github.com/MEDINCODEX/marramohamed.git)][(https://github.com/MEDINCODEX/marramohamed.git)]
 Navigate into the directory:
 
-Bash
-   cd your-repo-name
+```Bash
+   cd marramohamed
 Open index.html in your preferred browser, or use a tool like VS Code Live Server for hot-reloading.
 
 📬 Let's Talk Data
