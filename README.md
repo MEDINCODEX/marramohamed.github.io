@@ -1,4 +1,4 @@
-# /// MARRA MOHAMED | DATA ENGINEER & ANALYST PORTFOLIO
+# MEDINCODEX | DATA ENGINEER & ANALYST PORTFOLIO
 
 > A high-performance, brutalist web portfolio showcasing scalable data architecture, automated workflows, and strategic business intelligence.
 
